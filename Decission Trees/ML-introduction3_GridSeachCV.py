@@ -6,7 +6,7 @@
 #Here we will be playing with more columns. However DecisionTreeClassifier algorithm works only on numeric/continuous data/columns
 #Henceforth we need to convert  catogerical columns to dummy columns
 #This technique is called one-hot encoding
-
+ 
 import pandas as pd
 from sklearn import tree
 import io
