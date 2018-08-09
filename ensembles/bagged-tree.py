@@ -54,8 +54,8 @@ n_tree = 0
 for est in bag_tree_estimator1.estimators_: 
 #for est in bag_tree_estimator2.estimators_: 
     dot_data = io.StringIO()
-    tmp = est.tree_
-    tree.export_graphviz(tmp, out_file = dot_data, feature_names = X_train.columns)
+    #tmp = est.tree_
+    tree.export_graphviz(est, out_file = dot_data, feature_names = X_train.columns)
     graph = pydot.graph_from_dot_data(dot_data.getvalue())#[0] 
     graph.write_pdf("bagtree" + str(n_tree) + ".pdf")
     n_tree = n_tree + 1
