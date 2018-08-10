@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Apr  9 08:49:40 2018
-
 @author: Sreenivas.J
 """
 
