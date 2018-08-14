@@ -63,16 +63,16 @@ X_train = titanic_all[0:titanic_train.shape[0]]
 y_train = titanic_train['Survived']
 
 #build stacked model using selected features
-dt1 = tree.DecisionTreeClassifier(random_state=100)
-rf2 = ensemble.RandomForestClassifier(random_state=100)
-gb3 = ensemble.GradientBoostingClassifier(random_state=100)
+rf1 = ensemble.RandomForestClassifier(random_state=100)
+gb2 = ensemble.GradientBoostingClassifier(random_state=100)
 
-dt = tree.DecisionTreeClassifier(random_state=100)
+dt = tree.DecisionTreeClassifier(random_state=100) #For Stacking
 
-stack_estimator = mlxClassifier.StackingClassifier(classifiers=[dt1, rf2, gb3], meta_classifier=dt) #, store_train_meta_features=True)
-stack_grid = {'decisiontreeclassifier__min_samples_split': [2, 3],
-            'randomforestclassifier__n_estimators': [5, 10],
-            'gradientboostingclassifier__n_estimators': [10, 50]}
+stack_estimator = mlxClassifier.StackingClassifier(classifiers=[rf1, gb2], meta_classifier=dt) #, store_train_meta_features=True)
+stack_grid = {'randomforestclassifier__n_estimators': [5, 10],
+              'randomforestclassifier__max_features': [7, 8, 9],
+              'gradientboostingclassifier__n_estimators': [10, 50],
+              'meta-decisiontreeclassifier__min_samples_split': [2, 3]} #meta- prefix is required
 
 grid_stack_estimator = model_selection.GridSearchCV(stack_estimator, stack_grid, cv=10)
 grid_stack_estimator.fit(X_train, y_train)
