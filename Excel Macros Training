@@ -1,0 +1,79 @@
+
+
+Sub fc_count()
+
+    Dim fc_count As Variant
+    Dim v, h As Integer   '-------------v is vertical, h is horizontal
+    
+    v = 10
+    
+    fc_count = Split("BDL2 BFI1 BFI4 BWI2 CMH1 DFW7 EWR4 EWR9 FTW6 HAM2 HOU2 JAX2 LGA9 MAN1 MDW7 MKC6 MKE1 MSP1 OAK4 SAT2 SMF1 TPA1 YYZ4", " ")
+    hor = Split("N O P Q R S T U V W X Y Z AA AB AC AD AE AF AG AH AI AJ", " ")
+    
+    
+    Do While Range("A" & v).Value <> "" And Range("A" & v).Value <> "Grand Total "
+            h = 0
+            Range("B" & v) = ""
+            Do While h < 23 'Range(hor(h) & v).Value <> ""
+                
+                If Range(hor(h) & v).Value > 999 Then
+                    Range("B" & v).Value = Range("B" & v).Value & "," & Range(hor(h) & "9").Value
+                End If
+                
+                h = h + 1
+            Loop
+            
+            Range("B" & v) = Mid(Range("B" & v), 2, 20)
+            
+            If Len(Range("B" & v).Value) > 10 Then
+                Range("B" & v) = "Multiple"
+            End If
+            
+            v = v + 1
+    
+    Loop
+    
+                
+        
+        
+
+End Sub
+
+
+
+Sub Email()
+
+Dim select_range As Range
+Dim row As Integer
+rowname = Split("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z AA AB AC AD AE AF AG AH AI AJ AK AL AM AN AO AP AQ AR AS AT AU AV AW AX AY AZ BA BB BC BD BE BF BG BH BI BJ BK BL BM BN BO BP", " ")
+
+
+Range("A9").End(xlToRight).Select
+row = ActiveCell.Column - 1
+
+Range("A1").Select
+
+
+Do While Range("A10").Value <> ""
+
+        ActiveSheet.Range("A9", rowname(row) & "10").Select
+        '-------------------------------Sending Email-------------------------------
+           ActiveWorkbook.EnvelopeVisible = True ' Enables sending email using VBA
+        
+            With ActiveSheet.MailEnvelope
+        
+                .Item.To = ActiveSheet.Range("A10").Value & "@amazon.com"
+                .Item.Subject = ActiveSheet.Range("B2").Value
+                .Introduction = ActiveSheet.Range("B3").Value
+        
+                .Item.Send
+        
+            End With
+Rows("10:10").Select
+Selection.Delete Shift:=xlUp
+Loop
+
+ 
+
+'--------------------------------------------------------------------------
+End Sub
